@@ -18,7 +18,7 @@ function changePage(newPage) {
 	@click="changePage(page - 1)"
 	v-show="page > 1">&lt;</button>
 
-	<span>Page {{ page }}</span>
+	<span>Page {{ page }} of {{ totalPages }}</span>
 
 	<button 
 	class="pagination-button" 

@@ -1,57 +1,77 @@
-<script>
+<script setup>
 import {
-    reactive,
+	onMounted,
     ref,
     watch
 } from 'vue';
 import axios from 'axios';
 import ProductCard from '@/components/ProductCard.vue';
 import Pagination from '@/components/Pagination.vue';
+import Loading from '@/components/Loading.vue';
 
 const products = ref([]);
-const page = ref(1)
-const limit = ref(8)
+const page = ref(1);
+const limit = ref(8);
+const BASE_URL = `http://localhost:3000/products`
+const isLoading = ref(true);
 
-// The first data request
-products.value = await axios
-    .get(`http://localhost:3000/products?_page=${page.value}&_per_page=${limit.value}`)
-    .then((res) => res.data)
-	console.log(`first request ${products.value}`)
-
+onMounted(async () => {
+	try {
+		// The first data request
+	products.value = await axios
+	.get(`${BASE_URL}?_page=1&_per_page=8`)
+	.then((res) => res.data)
+	} catch (error) {
+		console.log(error)
+	}finally {
+		isLoading.value = false
+	}
+});
 
 // paggination, variable page akan diawasi terus oleh watch
 // jika ada perubahan maka akan request ulang
 watch(page, async () => {
-    products.value = await axios
-        .get(`http://localhost:3000/products?_page=${page.value}&_per_page=${limit.value}`)
-        .then((res) => res.data);
-})
+	try {
+		isLoading.value = true
+		products.value = await axios
+		.get(`${BASE_URL}?_page=${page.value}&_per_page=${limit.value}`)
+		.then((res) => res.data);
+	} catch (error) {
+		console.log(error)
+	}finally {
+		isLoading.value = false
+	}
+    
+});
 
 function changePage(newPage) {
-    if (newPage < 1) return
-    // if the new value page more than total pages value from respons API, ignore, no respons anything
-    if (newPage > products.value.pages) return
-    page.value = newPage
+    if (newPage < 1) return;
+    if (newPage > products.value.pages) return;
+    page.value = newPage;
 }
 </script>
 
 <template>
-<main>
-    <div class="product-grid">
-        <!-- Kirim data ke ProductCard.vue menggunakan props -->
-        <ProductCard 
-		v-for="product in products.data" 
-		:key="product.id" 
-		:product="product" />
+	<div v-if="isLoading">
+		<Loading/>
+	</div>
 
-    </div>
-    <div class="pagination">
-        <Pagination 
-		:page="page" 
-		:totalPages="products.pages" 
-		@change-page="changePage" />
-    </div>
-</main>
+	<main v-else>
+		<div class="product-grid">
+			<!-- Kirim data ke ProductCard.vue menggunakan props -->
+			<ProductCard 
+			v-for="product in products.data" 
+			:key="product.id" 
+			:product="product" />
+
+		</div>
+		<div class="pagination">
+			<Pagination 
+			:page="page" 
+			:totalPages="products.pages" 
+			@change-page="changePage" />
+		</div>
+	</main>
 </template>
 
 <style scoped>
