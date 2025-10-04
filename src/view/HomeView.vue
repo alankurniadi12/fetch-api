@@ -11,7 +11,7 @@ import Loading from '@/components/Loading.vue';
 
 const products = ref([]);
 const page = ref(1);
-const limit = ref(8);
+const limit = ref(9);
 const BASE_URL = `http://localhost:3000/products`
 const isLoading = ref(true);
 
@@ -19,7 +19,7 @@ onMounted(async () => {
 	try {
 		// The first data request
 		products.value = await axios
-			.get(`${BASE_URL}?_page=1&_per_page=8`)
+			.get(`${BASE_URL}?_page=1&_per_page=9`)
 			.then((res) => res.data)
 	} catch (error) {
 		console.log(error)

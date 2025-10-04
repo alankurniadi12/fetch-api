@@ -1,13 +1,6 @@
 {
   "products": [
     {
-      "title": "Electric Standing Desk ",
-      "description": "Create a comfortable and ergonomic workspace with this adjustable electric standing desk.",
-      "price": 449,
-      "image": "https://via.placeholder.com/150",
-      "id": "9"
-    },
-    {
       "id": "10",
       "title": "Smart Home Security System",
       "description": "Protect your home with this smart security system featuring cameras and sensors.",
@@ -36,13 +29,6 @@
       "image": "https://via.placeholder.com/150"
     },
     {
-      "id": "14",
-      "title": "High-Performance Blender",
-      "description": "Blend smoothies, soups, and more with ease using this powerful high-performance blender.",
-      "price": 149.99,
-      "image": "https://via.placeholder.com/150"
-    },
-    {
       "id": "15",
       "title": "Durable Travel Backpack",
       "description": "Travel in style and comfort with this durable and spacious travel backpack.",
@@ -54,13 +40,6 @@
       "title": "Professional Espresso Machine",
       "description": "Create barista-quality espresso at home with this professional-grade espresso machine.",
       "price": 499.99,
-      "image": "https://via.placeholder.com/150"
-    },
-    {
-      "id": "17",
-      "title": "Smart LED Desk Lamp",
-      "description": "Illuminate your workspace with adjustable brightness and color temperature using this smart LED desk lamp.",
-      "price": 69.99,
       "image": "https://via.placeholder.com/150"
     },
     {
