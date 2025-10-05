@@ -1,5 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits, watchEffect, computed } from 'vue';
+
+const props = defineProps({
+    product: Object
+});
 
 const title = ref('');
 const description = ref('');
@@ -7,7 +11,8 @@ const price = ref('');
 const image = ref('');
 const id = ref('');
 const showForm = ref(false);
-const emit = defineEmits(['create-product']);
+const isUpdate = computed(() => !!props.product)
+const emit = defineEmits(['create-product', 'update-product']);
 
 function saveProduct() {
     const formData = {
@@ -15,14 +20,27 @@ function saveProduct() {
         description: description.value,
         price: price.value,
         image: image.value
+    };
+
+    if (isUpdate.value) {
+        emit('update-product', formData, id.value)
+    } else {
+        emit('create-product', formData);
     }
-    emit('create-product', formData);
 }
+
+watchEffect(() => {
+    title.value = props.product?.title;
+    description.value = props.product?.description;
+    price.value = props.product?.price;
+    image.value = props.product?.image;
+    id.value = props.product?.id;
+})
 </script>
 
 <template>
     <div class="form-container">
-        <button @click="showForm = !showForm">Form Product</button>
+        <button @click="showForm = !showForm">{{ isUpdate ? 'Update' : 'Add' }} Product</button>
         <div v-if="showForm" class="product-form">
             <form @submit.prevent="saveProduct">
                 <label for="title">Title:</label>

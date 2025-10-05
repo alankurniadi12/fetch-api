@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import ProductForm from './ProductForm.vue';
+import ProductForm from '@/components/ProductForm.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -23,6 +23,15 @@ async function fetchData() {
     }
 }
 
+async function updateProduct(product) {
+    try {
+        await axios.put(API_URL, product);
+        router.push('/');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function deleteProduct() {
     try {
         await axios.delete(API_URL);
@@ -39,7 +48,7 @@ async function deleteProduct() {
         <img :src="product.image" :alt="product.title" class="product-image"></img>
         <p>{{ product.description }}</p>
         <p>{{ product.price }}</p>
-        <ProductForm />
+        <ProductForm :product="product" @update-product="updateProduct" />
         <router-link to="/" class="back-button">Back</router-link>
         <button @click="deleteProduct" class="delete-button">Delete</button>
     </div>

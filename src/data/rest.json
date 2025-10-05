@@ -1,11 +1,11 @@
 {
   "products": [
     {
-      "id": "10",
-      "title": "Smart Home Security System",
-      "description": "Protect your home with this smart security system featuring cameras and sensors.",
-      "price": 349.99,
-      "image": "https://via.placeholder.com/150"
+      "title": "Smart Home UPDATE",
+      "description": "UPDATE: Protect your home with this smart security system featuring cameras and sensors.",
+      "price": 349,
+      "image": "https://via.placeholder.com/150",
+      "id": "10"
     },
     {
       "id": "11",
