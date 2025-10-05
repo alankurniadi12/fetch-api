@@ -342,6 +342,13 @@
       "description": "Effortlessly heat and cook your meals with this compact countertop microwave featuring multiple cooking presets.",
       "price": 79.99,
       "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "87d2",
+      "title": "Laptop MSI",
+      "description": "MSI Jadul masih garang",
+      "price": 1000,
+      "image": "https://via.placeholder.com/150"
     }
   ]
 }

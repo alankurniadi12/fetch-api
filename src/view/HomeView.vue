@@ -1,13 +1,10 @@
 <script setup>
-import {
-	onMounted,
-	ref,
-	watch
-} from 'vue';
+import { ref, watchEffect } from 'vue';
 import axios from 'axios';
 import ProductCard from '@/components/ProductCard.vue';
 import Pagination from '@/components/Pagination.vue';
 import Loading from '@/components/Loading.vue';
+import ProductForm from '@/components/ProductForm.vue';
 
 const products = ref([]);
 const page = ref(1);
@@ -15,22 +12,8 @@ const limit = ref(9);
 const BASE_URL = `http://localhost:3000/products`
 const isLoading = ref(true);
 
-onMounted(async () => {
-	try {
-		// The first data request
-		products.value = await axios
-			.get(`${BASE_URL}?_page=1&_per_page=9`)
-			.then((res) => res.data)
-	} catch (error) {
-		console.log(error)
-	} finally {
-		isLoading.value = false
-	}
-});
 
-// paggination, variable page akan diawasi terus oleh watch
-// jika ada perubahan maka akan request ulang
-watch(page, async () => {
+async function fetchData() {
 	try {
 		isLoading.value = true
 		products.value = await axios
@@ -41,13 +24,25 @@ watch(page, async () => {
 	} finally {
 		isLoading.value = false
 	}
+}
 
-});
+watchEffect(() => {
+	fetchData();
+})
 
 function changePage(newPage) {
 	if (newPage < 1) return;
 	if (newPage > products.value.pages) return;
 	page.value = newPage;
+}
+
+async function createProduct(product) {
+	try {
+		await axios.post(BASE_URL, product);
+		fetchData()
+	} catch (error) {
+		console.log("Terjadi kesalahan saat kirim product:", error)
+	}
 }
 </script>
 
@@ -57,6 +52,7 @@ function changePage(newPage) {
 	</div>
 
 	<main v-else>
+		<ProductForm @create-product="createProduct" />
 		<div class="product-grid">
 			<!-- Kirim data ke ProductCard.vue menggunakan props -->
 			<ProductCard v-for="product in products.data" :key="product.id" :product="product" />
